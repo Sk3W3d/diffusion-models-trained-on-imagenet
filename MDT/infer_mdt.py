@@ -18,7 +18,8 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 num_sampling_steps = 250
 cfg_scale = 4.0
 pow_scale = 0.01 # large pow_scale increase the diversity, small pow_scale increase the quality.
-model_path = 'mdt_xl2_v2_ckpt.pt'
+# model_path = 'mdt_xl2_v2_ckpt.pt'
+model_path = '/home/jzj/.cache/huggingface/hub/models--shgao--MDT-XL2/snapshots/84bf27292f9b001c82f2863b55861752ab177507/mdt_xl2_v2_ckpt.pt'
 
 # Load model:
 image_size = 256
@@ -30,7 +31,9 @@ state_dict = torch.load(model_path, map_location=lambda storage, loc: storage)
 model.load_state_dict(state_dict)
 model.eval()
 diffusion = create_diffusion(str(num_sampling_steps))
-vae = AutoencoderKL.from_pretrained("stabilityai/sd-vae-ft-mse").to(device)
+# vae = AutoencoderKL.from_pretrained("stabilityai/sd-vae-ft-mse").to(device)
+local_sd_vae_ft_mse_path = "/home/jzj/.cache/huggingface/hub/models--stabilityai--sd-vae-ft-mse/snapshots/31f26fdeee1355a5c34592e401dd41e45d25a493"
+vae = AutoencoderKL.from_pretrained(local_sd_vae_ft_mse_path).to(device)
 
 # Labels to condition the model with:
 class_labels = [19,23,106,108,278,282]
