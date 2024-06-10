@@ -59,4 +59,11 @@ samples, _ = samples.chunk(2, dim=0)  # Remove null class samples
 samples = vae.decode(samples / 0.18215).sample
 
 # Save and display images:
-save_image(samples, "sample.jpg", nrow=3, normalize=True, value_range=(-1, 1))
+# save_image(samples, "sample.jpg", nrow=3, normalize=True, value_range=(-1, 1))
+
+# save images
+import os
+os.makedirs("sample", exist_ok=True)
+for i, sample in enumerate(samples):
+    save_image(sample, f"sample/sample_{i}.jpg", normalize=True, value_range=(-1, 1))
+print("Images saved in sample folder.")
